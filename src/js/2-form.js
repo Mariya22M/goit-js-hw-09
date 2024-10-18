@@ -1,32 +1,42 @@
+const STORAGE_KEY = 'feedback-form-state';
+
 const form = document.querySelector('.feedback-form');
-const formData = { email: '', message: '' };
+const emailInput = form.elements.email;
+const messageInput = form.elements.message;
 
-// При завантаженні сторінки заповнюємо форму даними з локального сховища
-document.addEventListener('DOMContentLoaded', () => {
-    const savedData = JSON.parse(localStorage.getItem('feedback-form-state'));
-    if (savedData) {
-        formData.email = savedData.email || '';
-        formData.message = savedData.message || '';
-        form.email.value = formData.email;
-        form.message.value = formData.message;
-    }
+popText();
+
+form.addEventListener('submit', event => {
+event.preventDefault();
+
+const formValues = {
+email: emailInput.value.trim(),
+message: messageInput.value.trim(),
+};
+
+if (formValues.email === '' || formValues.message === '') {
+return alert('Please fill in all the fields!');
+}
+
+console.log(formValues);
+
+event.currentTarget.reset();
+localStorage.removeItem(STORAGE_KEY);
 });
 
-// Відстеження змін у формі
-form.addEventListener('input', (event) => {
-    const { name, value } = event.target;
-    formData[name] = value.trim(); // Зберігаємо без пробілів
-    localStorage.setItem('feedback-form-state', JSON.stringify(formData)); // Записуємо в локальне сховище
+form.addEventListener('input', event => {
+const formValues = {
+email: emailInput.value.trim(),
+message: messageInput.value.trim(),
+};
+localStorage.setItem(STORAGE_KEY, JSON.stringify(formValues));
 });
 
-// Обробка сабміту форми
-form.addEventListener('submit', (event) => {
-    event.preventDefault();
-    if (!formData.email || !formData.message) {
-        alert('Fill please all fields'); // Перевірка на заповненість полів
-        return;
-    }
-    console.log(formData); // Виводимо дані в консоль
-    localStorage.removeItem('feedback-form-state'); // Очищаємо локальне сховище
-    form.reset(); // Очищаємо поля форми
-});
+function popText() {
+const savedMessage = JSON.parse(localStorage.getItem(STORAGE_KEY));
+
+if (savedMessage) {
+emailInput.value = savedMessage.email || '';
+messageInput.value = savedMessage.message || '';
+}
+}

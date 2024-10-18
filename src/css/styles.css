@@ -16,3 +16,100 @@
 @import url('./badges.css');
 @import url('./back-link.css');
 @import url('./footer.css');
+
+
+
+/* Стили для галереї */
+.gallery {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+
+    gap: 20px;
+
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.gallery-item {
+    overflow: hidden;
+
+    border: 1px solid #ccc;
+}
+
+.gallery-link {
+    display: block;
+}
+
+.gallery-image {
+    width: 100%;
+    height: auto;
+    display: block;
+    transition: transform 0.3s ease-in-out;
+
+}
+
+.gallery-item:hover .gallery-image {
+    transform: scale(1.1);
+
+}
+
+
+
+/* Стилі для форми */
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f4f4f4;
+    padding: 20px;
+}
+
+li {
+    list-style-type: none;
+}
+
+.feedback-form {
+    display: flex;
+    flex-direction: column;
+    width: 360px;
+    margin: 0 auto;
+    border-radius: 8px;
+    background-color: #ffffff;
+    padding: 20px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+label {
+    margin-bottom: 5px;
+}
+
+.feedback-form:hover {
+    border: 2px;
+
+}
+
+input[type="email"],
+textarea {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 20px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-sizing: border-box;
+    resize: none;
+}
+
+button {
+    width: 95px;
+    height: 40px;
+    background-color: #4E75FF;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+button:hover {
+    background-color: #6C8CFF;
+
+}
