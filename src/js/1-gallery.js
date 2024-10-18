@@ -1,46 +1,38 @@
 import SimpleLightbox from "simplelightbox";
 import "simplelightbox/dist/simple-lightbox.min.css";
 
-// Масив даних із зображеннями
 const images = [
-  {
-    preview: "images/small-image1.jpg",
-    original: "images/large-image1.jpg",
-    description: "Image 1 description",
-  },
-  {
-    preview: "images/small-image2.jpg",
-    original: "images/large-image2.jpg",
-    description: "Image 2 description",
-  },
-  {
-    preview: "images/small-image3.jpg",
-    original: "images/large-image3.jpg",
-    description: "Image 3 description",
-  },
+    {
+        preview: 'small-image-1.jpg', 
+        original: 'large-image-1.jpg',
+        description: 'Description 1',
+    },
+    {
+        preview: 'small-image-2.jpg',
+        original: 'large-image-2.jpg',
+        description: 'Description 2',
+    },
+    
 ];
 
-// Отримуємо посилання на контейнер для галереї
-const galleryContainer = document.querySelector('.gallery');
+const gallery = document.querySelector('.gallery');
 
-// Створюємо розмітку галереї
-const galleryMarkup = images
-  .map(
-    ({ preview, original, description }) => `
-      <li class="gallery-item">
+const galleryMarkup = images.map(({ preview, original, description }) => `
+    <li class="gallery-item">
         <a class="gallery-link" href="${original}">
-          <img class="gallery-image" src="${preview}" alt="${description}" />
+            <img 
+                class="gallery-image" 
+                src="${preview}" 
+                alt="${description}" 
+            />
         </a>
-      </li>
-    `
-  )
-  .join('');
+    </li>
+`).join('');
 
-// Додаємо розмітку в DOM
-galleryContainer.innerHTML = galleryMarkup;
+gallery.insertAdjacentHTML('beforeend', galleryMarkup);
 
-// Ініціалізація бібліотеки SimpleLightbox
+
 const lightbox = new SimpleLightbox('.gallery a', {
-  captionsData: 'alt',
-  captionDelay: 250,
+    captionsData: 'alt', 
+    captionDelay: 250, 
 });

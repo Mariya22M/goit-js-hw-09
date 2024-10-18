@@ -1,60 +1,32 @@
-// Створюємо об'єкт formData для зберігання значень полів форми
-let formData = {
-  email: '',
-  message: '',
-};
-
-// Ключ для збереження даних у локальне сховище
-const STORAGE_KEY = 'feedback-form-state';
-
-// Отримуємо посилання на елементи форми
 const form = document.querySelector('.feedback-form');
-const emailInput = form.elements.email;
-const messageInput = form.elements.message;
+const formData = { email: '', message: '' };
 
-// Функція для збереження даних у localStorage
-const saveFormData = () => {
-  localStorage.setItem(STORAGE_KEY, JSON.stringify(formData));
-};
+// При завантаженні сторінки заповнюємо форму даними з локального сховища
+document.addEventListener('DOMContentLoaded', () => {
+    const savedData = JSON.parse(localStorage.getItem('feedback-form-state'));
+    if (savedData) {
+        formData.email = savedData.email || '';
+        formData.message = savedData.message || '';
+        form.email.value = formData.email;
+        form.message.value = formData.message;
+    }
+});
 
-// Функція для оновлення об'єкта formData при введенні даних у форму
-const handleInput = event => {
-  formData[event.target.name] = event.target.value.trim();
-  saveFormData();
-};
+// Відстеження змін у формі
+form.addEventListener('input', (event) => {
+    const { name, value } = event.target;
+    formData[name] = value.trim(); // Зберігаємо без пробілів
+    localStorage.setItem('feedback-form-state', JSON.stringify(formData)); // Записуємо в локальне сховище
+});
 
-// Функція для заповнення форми даними з localStorage, якщо вони є
-const populateForm = () => {
-  const savedData = localStorage.getItem(STORAGE_KEY);
-  if (savedData) {
-    formData = JSON.parse(savedData);
-    emailInput.value = formData.email || '';
-    messageInput.value = formData.message || '';
-  }
-};
-
-// Функція для обробки сабміту форми
-const handleSubmit = event => {
-  event.preventDefault();
-
-  // Перевіряємо, чи заповнені обидва поля
-  if (!formData.email || !formData.message) {
-    alert('Fill please all fields');
-    return;
-  }
-
-  // Виводимо дані в консоль
-  console.log(formData);
-
-  // Очищаємо форму, localStorage та об'єкт formData
-  localStorage.removeItem(STORAGE_KEY);
-  form.reset();
-  formData = { email: '', message: '' };
-};
-
-// Додаємо обробники подій
-form.addEventListener('input', handleInput);
-form.addEventListener('submit', handleSubmit);
-
-// Заповнюємо форму при завантаженні сторінки
-populateForm();
+// Обробка сабміту форми
+form.addEventListener('submit', (event) => {
+    event.preventDefault();
+    if (!formData.email || !formData.message) {
+        alert('Fill please all fields'); // Перевірка на заповненість полів
+        return;
+    }
+    console.log(formData); // Виводимо дані в консоль
+    localStorage.removeItem('feedback-form-state'); // Очищаємо локальне сховище
+    form.reset(); // Очищаємо поля форми
+});
